@@ -7,7 +7,7 @@ const Navbar = () => {
     <div>
       <nav class="bg-white border-gray-200 ">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <a href="https://flowbite.com" class="flex items-center  ">
+          <a href="/" class="flex items-center  ">
             <Image
               src="/acs.png"
               width={100}
