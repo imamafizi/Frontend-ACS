@@ -1,12 +1,78 @@
+"use client";
 import Image from "next/image";
 import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { loginAction } from "@/redux/slices/userSlices";
+import { baseUrl } from "../utils/config";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useRouter();
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Full Name is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const { username, email, password } = values;
+        const response = await axios.post(`${baseUrl}/users`, {
+          username,
+          email,
+          password,
+        });
+
+        toast.success("Register successfull!");
+
+        // if (response.data) {
+        //   dispatch(
+        //     loginAction({
+        //       id: response.data.id,
+        //       username: response.data.username,
+        //       email: response.data.email,
+        //     })
+        //   );
+        //   console.log("Registration successful", response.data);
+        // }
+        setTimeout(() => {
+          navigate.push("/login");
+        }, 1000);
+      } catch (error) {
+        toast.error("Registration failed. Please try again.");
+        console.error("Registration failed", error);
+      }
+    },
+  });
+
   return (
     <div className="md:p-20 p-10">
       <div className="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md">
         <div className="px-6 py-4">
-          <form className="w-full max-w-md">
+          <form className="w-full max-w-md" onSubmit={formik.handleSubmit}>
             <div className="flex justify-center mx-auto">
               <Image
                 src="/acs.png"
@@ -15,155 +81,120 @@ const Register = () => {
                 alt="Picture of the author"
               />
             </div>
-            <h3 className="mt-3 text-xl font-medium text-center text-gray-600 ">
+            <h3 className="mt-3 text-xl font-medium text-center text-gray-600">
               Welcome
             </h3>
-
-            <p className="mt-1 text-center text-gray-500 ">Create account</p>
+            <p className="mt-1 text-center text-gray-500">Create account</p>
 
             <div className="flex items-center justify-center mt-6">
               <a
                 href="/login"
-                className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b "
+                className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b"
               >
                 Login
               </a>
-
               <a
                 href="/register"
-                className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-red-500 "
+                className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-red-500"
               >
                 Register
               </a>
             </div>
 
             <div className="relative flex items-center mt-8">
-              <span className="absolute">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-3 text-gray-300 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
+              <span className="absolute left-3">
+                <FaUser className="w-6 h-6 text-gray-300" />
               </span>
-
-              <input
-                type="text"
-                className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11  focus:border-red-400  focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder="Full Name"
-              />
+              <div className="w-full">
+                <input
+                  type="text"
+                  name="username"
+                  className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-10 focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  placeholder="User Name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.fullName}
+                />
+                {formik.touched.fullName && formik.errors.fullName ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.fullName}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="relative flex items-center mt-6">
-              <span className="absolute">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-3 text-gray-300 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
+              <span className="absolute left-3">
+                <FaEnvelope className="w-6 h-6 text-gray-300" />
               </span>
-
-              <input
-                type="text"
-                className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11  focus:border-red-400  focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder="Position"
-              />
-            </div>
-
-            <div className="relative flex items-center mt-6">
-              <span className="absolute">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-3 text-gray-300 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </span>
-
-              <input
-                type="email"
-                className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder="Email address"
-              />
+              <div className="w-full">
+                <input
+                  type="email"
+                  name="email"
+                  className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-10 focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  placeholder="Email address"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                />
+                {formik.touched.email && formik.errors.email ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.email}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="relative flex items-center mt-4">
-              <span className="absolute">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-3 text-gray-300 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
+              <span className="absolute left-3">
+                <FaLock className="w-6 h-6 text-gray-300" />
               </span>
-
-              <input
-                type="password"
-                className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-red-400  focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder="Password"
-              />
+              <div className="w-full">
+                <input
+                  type="password"
+                  name="password"
+                  className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  placeholder="Password"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                />
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.password}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="relative flex items-center mt-4">
-              <span className="absolute">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mx-3 text-gray-300 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
+              <span className="absolute left-3">
+                <FaLock className="w-6 h-6 text-gray-300" />
               </span>
-
-              <input
-                type="password"
-                className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg   focus:border-red-400  focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                placeholder="Confirm Password"
-              />
+              <div className="w-full">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  placeholder="Confirm Password"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.confirmPassword}
+                />
+                {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.confirmPassword}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="mt-6">
-              <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-900 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-50">
+              <button
+                type="submit"
+                className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-900 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-50"
+              >
                 Sign Up
               </button>
             </div>
@@ -176,6 +207,7 @@ const Register = () => {
           </a>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
