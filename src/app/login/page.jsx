@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginAction } from "@/redux/slices/userSlices";
+import { baseUrl } from "../utils/config";
 
 const validationSchema = Yup.object().shape({
   usernameOrEmail: Yup.string().required("Username or Email cannot be empty"),
@@ -38,12 +39,8 @@ const Login = () => {
       try {
         const userData = await axios.post(`${baseUrl}/users/login`, userlogin); // Adjust the URL according to your backend endpoint
         console.log(userData);
-
-        localStorage.setItem("sosialmedia", JSON.stringify(userData.data.data));
-
+        localStorage.setItem("login", JSON.stringify(userData.data.data));
         dispatch(loginAction(userData.data.data));
-        router.push("/");
-
         toast.success("Login Success", {
           position: "top-right",
           autoClose: 1500,
@@ -53,6 +50,7 @@ const Login = () => {
           draggable: true,
           progress: undefined,
         });
+        router.push("/");
       } catch (error) {
         console.error(error);
         toast.error(error.message, {
