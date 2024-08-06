@@ -1,270 +1,478 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 
 const BBS = () => {
+    const [currentSection, setCurrentSection] = useState(1);
+
+    const handleNext = () => {
+        setCurrentSection((prevSection) => prevSection + 1);
+    };
+
+    const handleBack = () => {
+        setCurrentSection((prevSection) => prevSection - 1);
+    };
+
     return (
         <>
-            <h3>BBS Observation Form</h3>
-            <form>
-                <h4>Informasi Pengamat</h4>
+        <div className="flex items-center justify-center min-h-screen bg-gray-50">
 
-                <div className="row">
-                    <label>Tanggal</label>
-                    <input type="text" />
+            <form className="p-6 bg-white shadow-md rounded-md w-full max-w-4xl my-5">
+            <h3 className="text-2xl font-semibold mb-4 text-center">BBS Observation Form</h3>
+
+            {currentSection === 1 && (
+<div>
+
+                <h4 className="text-md font-semibold mb-2">Informasi Pengamat</h4>
+
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Tanggal</label>
+                    <input type="text" className="border p-2 rounded" />
                 </div>
 
-                <div className="row">
-                    <label>Nama</label>
-                    <input type="text" />
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Nama</label>
+                    <input type="text" className="border p-2 rounded" />
                 </div>
 
-                <div className="row">
-                    <label>Observasi Diri Sendiri</label>
-                    <input type="radio" name="selfObservation" />Ya
-                    <input type="radio" name="selfObservation" />Tidak
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Observasi Diri Sendiri</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="selfObservation" className="mr-1" />Ya
+                        </div>
+                        <div>
+                            <input type="radio" name="selfObservation" className="mr-1" />Tidak
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Ada Pembimbing</label>
-                    <input type="radio" name="mentor" />Ya
-                    <input type="radio" name="mentor" />Tidak
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Ada Pembimbing</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="mentor" className="mr-1" />Ya
+                        </div>
+                        <div>
+                            <input type="radio" name="mentor" className="mr-1" />Tidak
+                        </div>
+                    </div>
                 </div>
 
-                <h4>Informasi Observasi</h4>
+                <h4 className="text-md font-semibold mb-2">Informasi Observasi</h4>
 
-                <div className="row">
-                    <label>Lokasi Observasi</label>
-                    <input type="text" />
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Lokasi Observasi</label>
+                    <input type="text" className="border p-2 rounded" />
                 </div>
 
-                <div className="row">
-                    <label>Jumlah yang Diobservasi</label>
-                    <input type="number" />
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Jumlah yang Diobservasi</label>
+                    <input type="number" className="border p-2 rounded" />
                 </div>
 
-                <div className="row">
-                    <label>Organisasi Yang Mengobservasi</label>
-                    <input type="radio" name="observingOrganization" />PHR
-                    <input type="radio" name="observingOrganization" />Kontraktor
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Organisasi Yang Mengobservasi</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="observingOrganization" className="mr-1" />PHR
+                        </div>
+                        <div>
+                            <input type="radio" name="observingOrganization" className="mr-1" />Kontraktor
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Organisasi yang Diobservasi</label>
+                    <input type="text" className="border p-2 rounded" />
                 </div>
 
-                <div className="row">
-                    <label>Organisasi yang Diobservasi</label>
-                    <input type="text" />
+                <div className="flex flex-col space-y-2">
+                    <label className="font-medium">Perusahaan Kontraktor</label>
+                    <input type="text" className="border p-2 rounded" />
+                </div>
+                <div className="flex justify-normal">
+                            <button type="button" onClick={handleNext} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Next</button>
+                        </div>
                 </div>
 
-                <div className="row">
-                    <label>Perusahaan Kontraktor</label>
-                    <input type="text" />
+            )}
+            {currentSection === 2 && (
+            <div>
+                <h4 className="text-md font-semibold mb-2">Posisi Badan</h4>
+                <div className="flex flex-col my-3 ">
+                    <label className="font-medium">Menghindari Lintasan Bahaya (Line of Fire)</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="lineOfFire" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="lineOfFire" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Posisi Badan</h5>
-
-                <div className="row">
-                    <label>Menghindari Lintasan Bahaya (Line of Fire)</label>
-                    <input type="radio" name="lineOfFire" />Safe
-                    <input type="radio" name="lineOfFire" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Berjalan / Bergerak dengan Pandangan ke Arah Gerakan</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="walkingDirection" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="walkingDirection" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Berjalan / Bergerak dengan Pandangan ke Arah Gerakan</label>
-                    <input type="radio" name="walkingDirection" />Safe
-                    <input type="radio" name="walkingDirection" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menjaga Pandangan Mata pada Pekerjaan</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="eyeOnTask" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="eyeOnTask" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menjaga Pandangan Mata pada Pekerjaan</label>
-                    <input type="radio" name="eyeOnTask" />Safe
-                    <input type="radio" name="eyeOnTask" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menjaga Badan dan Bagiannya di Luar Posisi Terjepit</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="bodyPosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="bodyPosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menjaga Badan dan Bagiannya di Luar Posisi Terjepit</label>
-                    <input type="radio" name="bodyPosition" />Safe
-                    <input type="radio" name="bodyPosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menaiki / Menuruni</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="climbing" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="climbing" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menaiki / Menuruni</label>
-                    <input type="radio" name="climbing" />Safe
-                    <input type="radio" name="climbing" />At Risk
+                <h4 className="text-md font-semibold my-5">Menggunakan Badan</h4>
+
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Mengangkat / Menurunkan / Menekan / Menarik</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="lifting" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="lifting" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Menggunakan Badan</h5>
-
-                <div className="row">
-                    <label>Mengangkat / Menurunkan / Menekan / Menarik</label>
-                    <input type="radio" name="lifting" />Safe
-                    <input type="radio" name="lifting" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menghindar dari Gerakan Memuntir</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="twisting" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="twisting" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menghindar dari Gerakan Memuntir</label>
-                    <input type="radio" name="twisting" />Safe
-                    <input type="radio" name="twisting" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menggapai / Meraih dalam Jangkauan</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="reaching" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="reaching" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menggapai / Meraih dalam Jangkauan</label>
-                    <input type="radio" name="reaching" />Safe
-                    <input type="radio" name="reaching" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menanggapi Resiko Ergonomi Industri</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="ergonomicRisk" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="ergonomicRisk" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menanggapi Resiko Ergonomi Industri</label>
-                    <input type="radio" name="ergonomicRisk" />Safe
-                    <input type="radio" name="ergonomicRisk" />At Risk
+                <h4 className="text-md font-semibold my-5">Perkakas dan Peralatan</h4>
+
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Memilih dan Menggunakan Perkakas / Peralatan</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="toolsUsage" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="toolsUsage" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Perkakas dan Peralatan</h5>
-
-                <div className="row">
-                    <label>Memilih dan Menggunakan Perkakas / Peralatan</label>
-                    <input type="radio" name="toolsUsage" />Safe
-                    <input type="radio" name="toolsUsage" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menggunakan Perkakas atau Peralatan dengan Benar</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="toolsCorrectUsage" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="toolsCorrectUsage" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menggunakan Pelindung / Barikade / Alat Peringatan</label>
-                    <input type="radio" name="protectiveGear" />Safe
-                    <input type="radio" name="protectiveGear" />At Risk
+                <h4 className="text-md font-semibold my-5">Prosedur Kerja</h4>
+
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Mengikuti Prosedur Kerja</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="followingProcedure" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="followingProcedure" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Prosedur</h5>
-
-                <div className="row">
-                    <label>Persiapan Kerja dan JSA (Job Safety Analysis)</label>
-                    <input type="radio" name="workPreparation" />Safe
-                    <input type="radio" name="workPreparation" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Mengisolasi Energi (Lock-Out / Tag-Out)</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="energyIsolation" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="energyIsolation" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Mengikuti Prosedur Kerja</label>
-                    <input type="radio" name="followingProcedure" />Safe
-                    <input type="radio" name="followingProcedure" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Mengerjakan Hot-Work</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="hotWork" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="hotWork" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Mengisolasi Energi (Lock-Out / Tag-Out)</label>
-                    <input type="radio" name="energyIsolation" />Safe
-                    <input type="radio" name="energyIsolation" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Memasuki Ruang Terbatas (confined space)</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="confinedSpace" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="confinedSpace" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Mengerjakan Hot-Work</label>
-                    <input type="radio" name="hotWork" />Safe
-                    <input type="radio" name="hotWork" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Komunikasi antar Rekan Kerja</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="communication" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="communication" className="mr-1" />At Risk
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-start">
+                                <button type="button" onClick={handleBack} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Back</button>
+                                <button type="submit" onClick= {handleNext} className="bg-blue-500 text-white p-2 rounded mt-4">Next</button>
+                            </div>
+                </div>
+)}
+            {currentSection === 3 && (
+
+<div>
+                <h4 className="text-md font-semibold my-5">Area Kerja</h4>
+
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Bekerja pada Posisi Stabil</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="stablePosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="stablePosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Memasuki Ruang Terbatas (confined space)</label>
-                    <input type="radio" name="confinedSpace" />Safe
-                    <input type="radio" name="confinedSpace" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Pengaturan Area Kerja / Housekeeping</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="housekeeping" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="housekeeping" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Komunikasi antar Rekan Kerja</label>
-                    <input type="radio" name="communication" />Safe
-                    <input type="radio" name="communication" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Bekerja di Lingkungan dengan Cahaya yang Cukup</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="sufficientLighting" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="sufficientLighting" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Area Kerja</h5>
+                <h5 className="text-md font-semibold mb-2">Ergonomi Kantor</h5>
 
-                <div className="row">
-                    <label>Bekerja pada Posisi Stabil</label>
-                    <input type="radio" name="stablePosition" />Safe
-                    <input type="radio" name="stablePosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Melakukan Istirahat Berkala (Didukung Oleh Workpace)</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="regularBreaks" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="regularBreaks" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Pengaturan Area Kerja / Housekeeping</label>
-                    <input type="radio" name="housekeeping" />Safe
-                    <input type="radio" name="housekeeping" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Posisi Leher dan Punggung</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="neckBackPosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="neckBackPosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Bekerja di Lingkungan dengan Cahaya yang Cukup</label>
-                    <input type="radio" name="sufficientLighting" />Safe
-                    <input type="radio" name="sufficientLighting" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Menggunakan Telepon</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="phoneUsage" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="phoneUsage" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Ergonomi Kantor</h5>
-
-                <div className="row">
-                    <label>Melakukan Istirahat Berkala (Didukung Oleh Workpace)</label>
-                    <input type="radio" name="regularBreaks" />Safe
-                    <input type="radio" name="regularBreaks" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Penyangga Punggung</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="backSupport" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="backSupport" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Posisi Leher dan Punggung</label>
-                    <input type="radio" name="neckBackPosition" />Safe
-                    <input type="radio" name="neckBackPosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Posisi Pundak</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="shoulderPosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="shoulderPosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Menggunakan Telepon</label>
-                    <input type="radio" name="phoneUsage" />Safe
-                    <input type="radio" name="phoneUsage" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Posisi Lengan, Tangan, Pergelangan, dan Jari</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="armPosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="armPosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Penyangga Punggung</label>
-                    <input type="radio" name="backSupport" />Safe
-                    <input type="radio" name="backSupport" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Posisi Kaki</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="legPosition" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="legPosition" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Posisi Pundak</label>
-                    <input type="radio" name="shoulderPosition" />Safe
-                    <input type="radio" name="shoulderPosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Pencahayaan</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="lighting" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="lighting" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Posisi Lengan, Tangan, Pergelangan, dan Jari</label>
-                    <input type="radio" name="armPosition" />Safe
-                    <input type="radio" name="armPosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Pengaturan Suhu</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="temperature" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="temperature" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <label>Posisi Kaki</label>
-                    <input type="radio" name="legPosition" />Safe
-                    <input type="radio" name="legPosition" />At Risk
+                <div className="flex flex-col my-3">
+                    <label className="font-medium">Gangguan Akustik</label>
+                    <div className="flex space-x-4">
+                        <div>
+                            <input type="radio" name="acousticDistractions" className="mr-1" />Safe
+                        </div>
+                        <div>
+                            <input type="radio" name="acousticDistractions" className="mr-1" />At Risk
+                        </div>
+                    </div>
                 </div>
-
-                <div className="row">
-                    <label>Pencahayaan</label>
-                    <input type="radio" name="lighting" />Safe
-                    <input type="radio" name="lighting" />At Risk
+                            <div className="flex justify-start">
+                                <button type="button" onClick={handleBack} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Back</button>
+                                <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">Submit</button>
+                            </div>
                 </div>
-
-                <div className="row">
-                    <label>Penggunaan Mouse</label>
-                    <input type="radio" name="mouseUsage" />Safe
-                    <input type="radio" name="mouseUsage" />At Risk
-                </div>
-
-                <h5>Lainnya</h5>
-
-                <div className="row">
-                    <label>Alat Pelindung Diri (APD) / Personal Protective Equipment (PPE)</label>
-                    <input type="radio" name="ppe" />Safe
-                    <input type="radio" name="ppe" />At Risk
-                </div>
-
-                <div className="row">
-                    <label>Lainnya</label>
-                    <input type="text" />
-                </div>
-
-                <div className="row">
-                    <label>Komentar / Saran</label>
-                    <textarea></textarea>
-                </div>
-
-                <div className="row">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+            )}
+                           </form>
+                           </div>
         </>
     );
 };
