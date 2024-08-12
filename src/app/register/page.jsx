@@ -278,4 +278,4 @@ const Register = () => {
   );
 };
 
-export default withAuthRedirect(Register);
+export default Register;
