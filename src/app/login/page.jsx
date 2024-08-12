@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginAction } from "@/redux/slices/userSlices";
 import { baseUrl } from "../utils/config";
+import useAuth from "../utils/withAuthRedirect";
 
 const validationSchema = Yup.object().shape({
   usernameOrEmail: Yup.string().required("Username or Email cannot be empty"),
@@ -19,6 +20,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const isAuthenticated = useAuth();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const dispatch = useDispatch();
@@ -65,6 +67,11 @@ const Login = () => {
       }
     },
   });
+  console.log(isAuthenticated);
+
+  if (isAuthenticated) {
+    return null; // This prevents the login page from rendering
+  }
 
   return (
     <div className="md:p-20 p-10">

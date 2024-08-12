@@ -1,6 +1,3 @@
-import React from "react";
-import TopCards from "./componnent/TopCards";
-import ChartOne from "./componnent/ChartOne";
 import SidebarDasboard from "./componnent/SidebarDashboard";
 
 const Dashboard = () => {

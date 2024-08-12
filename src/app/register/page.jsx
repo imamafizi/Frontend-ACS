@@ -3,14 +3,20 @@ import Image from "next/image";
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { FaUser, FaEnvelope, FaLock, FaBuilding, FaIdCard } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaBuilding,
+  FaIdCard,
+} from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { loginAction } from "@/redux/slices/userSlices";
 import { baseUrl } from "../utils/config";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import withAuthRedirect from "../utils/withAuthRedirect";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -33,31 +39,25 @@ const Register = () => {
     initialValues: {
       username: "",
       email: "",
+      jabatan: "",
+      company: "",
+      badge: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { username, email, password } = values;
+        const { username, email, jabatan, company, badge, password } = values;
         const response = await axios.post(`${baseUrl}/users`, {
           username,
           email,
+          jabatan,
+          company,
+          badge,
           password,
         });
-
         toast.success("Register successfull!");
-
-        // if (response.data) {
-        //   dispatch(
-        //     loginAction({
-        //       id: response.data.id,
-        //       username: response.data.username,
-        //       email: response.data.email,
-        //     })
-        //   );
-        //   console.log("Registration successful", response.data);
-        // }
         setTimeout(() => {
           navigate.push("/login");
         }, 1000);
@@ -159,7 +159,7 @@ const Register = () => {
                   onBlur={formik.handleBlur}
                   value={formik.values.jabatan}
                 />
-                {formik.touched.email && formik.errors.jabatan ? (
+                {formik.touched.jabatan && formik.errors.jabatan ? (
                   <div className="text-red-500 text-sm mt-2">
                     {formik.errors.jabatan}
                   </div>
@@ -181,9 +181,31 @@ const Register = () => {
                   onBlur={formik.handleBlur}
                   value={formik.values.company}
                 />
-                {formik.touched.email && formik.errors.company ? (
+                {formik.touched.company && formik.errors.company ? (
                   <div className="text-red-500 text-sm mt-2">
                     {formik.errors.company}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="relative flex items-center mt-6">
+              <span className="absolute left-3">
+                <FaBuilding className="w-6 h-6 text-gray-300" />
+              </span>
+              <div className="w-full">
+                <input
+                  type="text"
+                  name="badge"
+                  className="block w-full py-3 text-gray-700 bg-white border rounded-lg pl-10 focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  placeholder="badge"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.badge}
+                />
+                {formik.touched.badge && formik.errors.badge ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.badge}
                   </div>
                 ) : null}
               </div>
@@ -256,4 +278,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withAuthRedirect(Register);
