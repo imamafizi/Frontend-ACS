@@ -9,6 +9,8 @@ const Page = () => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState(null); // State for selected record
+    const [formData, setFormData] = useState({}); // State for form data
     const recordPerPage = 10;
     const lastIndex = currentPage * recordPerPage;
     const firstIndex = lastIndex - recordPerPage;
@@ -47,26 +49,43 @@ const Page = () => {
         }
     };
 
+    const openModal = (record) => {
+        setSelectedRecord(record); // Set selected record
+        // Assuming the form data you want to track is in the record object
+        setFormData({
+            date: record.date,
+            location: record.location,
+            rig: record.rig,
+            description: record.find,
+            reason: record.reason,
+            atRisk: record.atRisk || "",
+            safe: record.safe || ""
+        });
+        setIsModalOpen(true);
+    };
+
+    console.log(selectedRecord, "record");
+
+
     return (
         <div className="p-6 bg-gray-100 min-h-screen relative">
-            <div class="flex justify-between py-5 pr-5 items-center">
-
+            <div className="flex justify-between py-5 pr-5 items-center">
                 <Link href="/bbs" legacyBehavior>
                     <a className="flex items-center text-white bg-red-800 hover:bg-red-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none dark:focus:ring-red-900">
                         <FaPlusSquare className="mr-2" /> Tambahkan BBS
                     </a>
                 </Link>
 
-                <form class="max-w-md ms-2">
-                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                <form className="max-w-md ms-2">
+                    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Rig/Unit" required />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-800">Search</button>
+                        <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Rig/Unit" required />
+                        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-800">Search</button>
                     </div>
                 </form>
             </div>
@@ -95,7 +114,7 @@ const Page = () => {
                                 <td>
                                     <button
                                         className="px-4 py-2 text-sm font-medium text-white bg-red-900 rounded-lg hover:bg-red-1000 focus:outline-none focus:ring-2 focus:ring-red-800 mr-2"
-                                        onClick={() => setIsModalOpen(true)}
+                                        onClick={() => openModal(d)} // Open modal with selected record
                                     >
                                         <FaEye />
                                     </button>
@@ -106,7 +125,7 @@ const Page = () => {
                 </table>
             </div>
 
-            {isModalOpen && (
+            {isModalOpen && selectedRecord && (
                 <>
                     {/* Overlay Blur & Gelap */}
                     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
@@ -130,10 +149,31 @@ const Page = () => {
                                         <span className="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <form className="p-6 bg-white shadow-md rounded-md w-full max-w-4xl my-5">
-                                    <h3 className="text-2xl font-semibold mb-4 text-center">Under Maintenance</h3>
-                                    {/* Form fields here */}
-                                </form>
+                                <div className="p-6">
+                                    <h4 className="text-lg font-semibold mb-2">Tanggal:</h4>
+                                    <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Lokasi:</h4>
+                                    <p>{selectedRecord.location}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Rig:</h4>
+                                    <p>{selectedRecord.rig}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Deskripsi:</h4>
+                                    <p>{selectedRecord.find}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Alasan:</h4>
+                                    <p>{selectedRecord.reason}</p>
+
+                                    {Object.entries(selectedRecord)
+                                        .filter(([key, value]) => key.startsWith('q') && value === true) // Filter keys starting with 'q' and with a value of true
+                                        .map(([key, value], index) => (
+                                            <div key={index} className="mt-4">
+                                                <h4 className="text-lg font-semibold mb-2">{key.replace(/^\d+/, '').replace(/([A-Z])/g, ' $1')}</h4>
+                                                <p>Yes</p>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye, FaPlusSquare } from "react-icons/fa";
-import { IoAddCircleSharp } from "react-icons/io5";
 import { baseUrl } from '../utils/config';
 import Link from 'next/link';
 
@@ -10,6 +9,8 @@ const Page = () => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState(null); // Add state for selected record
+
     const recordPerPage = 10;
     const lastIndex = currentPage * recordPerPage;
     const firstIndex = lastIndex - recordPerPage;
@@ -48,9 +49,14 @@ const Page = () => {
         }
     };
 
+    const openModal = (record) => {
+        setSelectedRecord(record); // Set selected record
+        setIsModalOpen(true);
+    };
+
     return (
         <div className="p-6 bg-gray-100 min-h-screen relative">
-            <div class="flex justify-between py-5 pr-5 items-center">
+            <div className="flex justify-between py-5 pr-5 items-center">
 
                 <Link href="/swa" legacyBehavior>
                     <a className="flex items-center text-white bg-red-800 hover:bg-red-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none dark:focus:ring-red-900">
@@ -58,16 +64,16 @@ const Page = () => {
                     </a>
                 </Link>
 
-                <form class="max-w-md ms-2">
-                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                <form className="max-w-md ms-2">
+                    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Rig/Unit" required />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-800">Search</button>
+                        <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Rig/Unit" required />
+                        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-800">Search</button>
                     </div>
                 </form>
             </div>
@@ -94,7 +100,7 @@ const Page = () => {
                                 <td>
                                     <button
                                         className="px-4 py-2 text-sm font-medium text-white bg-red-900 rounded-lg hover:bg-red-1000 focus:outline-none focus:ring-2 focus:ring-red-800 mr-2"
-                                        onClick={() => setIsModalOpen(true)}
+                                        onClick={() => openModal(d)}
                                     >
                                         <FaEye />
                                     </button>
@@ -105,7 +111,7 @@ const Page = () => {
                 </table>
             </div>
 
-            {isModalOpen && (
+            {isModalOpen && selectedRecord && (
                 <>
                     {/* Overlay Blur & Gelap */}
                     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
@@ -129,10 +135,62 @@ const Page = () => {
                                         <span className="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <form className="p-6 bg-white shadow-md rounded-md w-full max-w-4xl my-5">
-                                    <h3 className="text-2xl font-semibold mb-4 text-center">Under Maintenance</h3>
-                                    {/* Form fields here */}
-                                </form>
+                                <div className="p-6">
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Name of Implementor:</h4>
+                                    <p>{selectedRecord.nameImplementor}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Team of Implementor:</h4>
+                                    <p>{selectedRecord.teamImplementor}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Company of Implementor:</h4>
+                                    <p>{selectedRecord.companyImplementor}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Badge of Implementor:</h4>
+                                    <p>{selectedRecord.badgeImplementor}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Position of Implementor:</h4>
+                                    <p>{selectedRecord.positionImplementor}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Name of Perpetrator:</h4>
+                                    <p>{selectedRecord.namePerpetrator}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Team of Perpetrator:</h4>
+                                    <p>{selectedRecord.teamPerpetrator}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Company of Perpetrator:</h4>
+                                    <p>{selectedRecord.companyPerpetrator}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Badge of Perpetrator:</h4>
+                                    <p>{selectedRecord.badgePerpetrator}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Position of Perpetrator:</h4>
+                                    <p>{selectedRecord.positionPerpetrator}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Date:</h4>
+                                    <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Location:</h4>
+                                    <p>{selectedRecord.location}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Reason:</h4>
+                                    <p>{selectedRecord.reason}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Response:</h4>
+                                    <p>{selectedRecord.response}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Description:</h4>
+                                    <p>{selectedRecord.desc}</p>
+
+                                    <h4 className="text-lg font-semibold mb-2 mt-4">Questions:</h4>
+                                    <ul>
+                                        <li>Apakah aktivitas kerja dilanjutkan kembali?: {selectedRecord.q1 ? 'Yes' : 'No'}</li>
+                                        <li>Apakah isu SWA disepakati kedua pihak?: {selectedRecord.q2 ? 'Yes' : 'No'}</li>
+                                        <li>Apakah isu SWA hanya dirasakan satu pihak?: {selectedRecord.q3 ? 'Yes' : 'No'}</li>
+                                        <li>Apakah isu yang dibahas terselesaikan?: {selectedRecord.q4 ? 'Yes' : 'No'}</li>
+                                        <li>Apakah melibatkan pihak lain untuk mitigasi?: {selectedRecord.q5 ? 'Yes' : 'No'}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
