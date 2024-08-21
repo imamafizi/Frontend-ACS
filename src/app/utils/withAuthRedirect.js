@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,7 +18,7 @@ const useAuth = () => {
     // Redirect if not authenticated
     useEffect(() => {
         if (isAuthenticated) {
-            router.push("/");
+            router.push("/404");
         }
     }, [isAuthenticated, router]);
 

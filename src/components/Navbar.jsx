@@ -2,15 +2,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { logoutAction } from "@/redux/slices/userSlices";
+import { logoutAction, loginAction } from "@/redux/slices/userSlices";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.user);
+  // Ensure default state is handled
+  const user = useSelector((state) => state.users || {}); // Handle the case where state.users might be undefined
   const dispatch = useDispatch();
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem("login"));
+
+    if (savedUser && user && !user.id) {
+      dispatch(loginAction(savedUser)); // Use loginAction to set user
+    }
+  }, [dispatch, user]); // Pass user as dependency but handle undefined cases
 
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -29,7 +38,7 @@ const Navbar = () => {
             </span>
           </Link>
           <div className="flex items-center space-x-6">
-            {user.id ? (
+            {user.id ? ( // Check if user and user.id are defined
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -77,18 +86,13 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/company" className="text-gray-900">
-                  Company
+                <Link href="/showbbs" className="text-gray-900">
+                  BBS
                 </Link>
               </li>
               <li>
-                <Link href="/team" className="text-gray-900">
-                  Team
-                </Link>
-              </li>
-              <li>
-                <Link href="/features" className="text-gray-900">
-                  Features
+                <Link href="/showswa" className="text-gray-900">
+                  SWA
                 </Link>
               </li>
             </ul>
