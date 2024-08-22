@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye, FaPlusSquare } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa6";
 import { baseUrl } from '../utils/config';
 import Link from 'next/link';
 
@@ -138,16 +139,23 @@ const Page = () => {
                                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                         Detail BBS
                                     </h3>
-                                    <button
-                                        type="button"
-                                        className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                        onClick={() => setIsModalOpen(false)}
-                                    >
-                                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                        </svg>
-                                        <span className="sr-only">Close modal</span>
-                                    </button>
+                                    <div>
+                                        <button
+                                            className="text-gray-900 mr-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >
+                                            <FaDownload />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            onClick={() => setIsModalOpen(false)}
+                                        >
+                                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                            <span className="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="p-6">
                                     <h4 className="text-lg font-semibold mb-2">Tanggal:</h4>
@@ -170,7 +178,7 @@ const Page = () => {
                                         .map(([key, value], index) => (
                                             <div key={index} className="mt-4">
                                                 <h4 className="text-lg font-semibold mb-2">{key.replace(/^\d+/, '').replace(/([A-Z])/g, ' $1')}</h4>
-                                                <p>Yes</p>
+                                                <p>Safe</p>
                                             </div>
                                         ))}
                                 </div>
