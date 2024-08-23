@@ -70,6 +70,9 @@ const Page = () => {
         setIsModalOpen(true);
     };
 
+    console.log(selectedRecord, "konntol");
+
+
     const fieldMappings = {
         q11: "1.1 Menghindari Lintasan Bahaya (Line of Fire)",
         q12: "1.2 Berjalan / Bergerak dengan Pandangan ke Arah Gerakan",
@@ -188,9 +191,12 @@ const Page = () => {
 
             {isModalOpen && selectedRecord && (
                 <>
+                    {/* Overlay Blur & Gelap */}
                     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+
+                    {/* Modal */}
                     <div id="detailBbs" tabIndex="-1" aria-hidden="true" className="overflow-y-auto fixed inset-0 z-50 flex justify-center items-center">
-                        <div className="relative p-4 w-full max-w-lg max-h-full">
+                        <div className="relative p-4 w-full max-w-screen-lg max-h-full">
                             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -215,29 +221,158 @@ const Page = () => {
                                     </div>
                                 </div>
                                 <div className="p-6">
-                                    <h4 className="text-lg font-semibold mb-2">Tanggal:</h4>
-                                    <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
 
-                                    <h4 className="text-lg font-semibold mb-2 mt-4">Lokasi:</h4>
-                                    <p>{selectedRecord.location}</p>
+                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 
-                                    <h4 className="text-lg font-semibold mb-2 mt-4">Rig:</h4>
-                                    <p>{selectedRecord.rig}</p>
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th colSpan={4} class="px-6 py-3">
+                                                    <h4 className="text-sm font-medium mb-2">Informsi Pengamat</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
 
-                                    <h4 className="text-lg font-semibold mb-2 mt-4">Deskripsi:</h4>
-                                    <p>{selectedRecord.find}</p>
+                                        <tbody>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    Tanggal
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
 
-                                    <h4 className="text-lg font-semibold mb-2 mt-4">Alasan:</h4>
-                                    <p>{selectedRecord.reason}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    Lokasi Observasi
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.location}</p>
 
-                                    {Object.entries(selectedRecord)
-                                        .filter(([key, value]) => key.startsWith('q') && value === true)
-                                        .map(([key, value], index) => (
-                                            <div key={index} className="mt-4">
-                                                <h4 className="text-lg font-semibold mb-2">{fieldMappings[key]}</h4>
-                                                <p>At Risk</p>
-                                            </div>
-                                        ))}
+                                                </td>
+                                            </tr>
+                                            <tr colSpan={2} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    Rig/Unit
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.rig}</p>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    Area Observasi
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.where}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <th colSpan={4} class="px-6 py-3">
+                                                    <h4 className="text-sm font-medium mb-2">Deskripsi Perilaku </h4>
+                                                </th>
+                                            </tr>
+                                            {Object.entries(selectedRecord)
+                                                .filter(([key, value]) => key.startsWith('q') && value === true) // Filter keys starting with 'q' and with a value of true
+                                                .map(([key, value], index) => (
+                                                    <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                        <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                            <p className="text-sm font-semibold mb-2">{fieldMappings[key]}</p>
+                                                        </th>
+                                                        <td colSpan={2} cope="row" class="px-6 py-4">
+                                                            <p>At Risk</p>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <th colSpan={4} class="px-6 py-3">
+                                                    <h4 className="text-sm font-medium mb-2">Informasi Tambahan </h4>
+                                                </th>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    When
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.when}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Find
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.find}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Reason
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.reason}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Suggest
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    <p>{selectedRecord.suggest}</p>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <th colSpan={4} class="px-6 py-3">
+                                                    <h4 className="text-lg font-bold mb-2">Feedback / Umpan Balik </h4>
+                                                </th>
+
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Setuju perilaku terjadi?
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    {selectedRecord.p1 ? 'Yes' : 'No'}
+                                                </td>
+
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Setuju perilaku berisiko?
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    {selectedRecord.p2 ? 'Yes' : 'No'}
+                                                </td>
+
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Perilaku selamat?
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    {selectedRecord.p3 ? 'Mudah' : 'Tidak Mungkin'}
+                                                </td>
+
+                                            </tr>
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th colSpan={2} class="px-6 py-4">
+                                                    Tindak lanjut Steering Committee?
+                                                </th>
+                                                <td colSpan={2} class="px-6 py-4">
+                                                    {selectedRecord.p4 ? 'Yes' : 'No'}
+                                                </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
                                 </div>
                             </div>
                         </div>

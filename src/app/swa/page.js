@@ -96,18 +96,18 @@ const SWA = () => {
                 <h3 className="text-2xl font-semibold mb-4 text-center">Stop Working Authority Form</h3>
 
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
                         {/* Observer Data (Initiated/Reported By) */}
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                             <tr>
                                 <th colSpan={4} className="px-6 py-3">
-                                    <h4 className="text-sm font-medium mb-2">A. Observer Data (Swa Is Initiated/Reported By)</h4>
+                                    <h4 className="text-lg font-bold mb-2">A. Observer Data (Swa Is Initiated/Reported By)</h4>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Name</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Name</th>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -117,7 +117,7 @@ const SWA = () => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                                <td className="px-6 py-4">Badge</td>
+                                <td className="px-6 py-4 font-bold text-gray-600">Badge</td>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -128,8 +128,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Team</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Team</th>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -139,7 +139,7 @@ const SWA = () => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                                <td className="px-6 py-4">Job Title</td>
+                                <td className="px-6 py-4 font-bold text-gray-600">Job Title</td>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -150,8 +150,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-gray-800">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Company</th>
+                            <tr className="bg-white ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap d">Company</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -164,13 +164,13 @@ const SWA = () => {
                             </tr>
 
                             {/* Observee Data (Implemented To) */}
-                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <th colSpan={4} className="px-6 py-3">
-                                    <h4 className="text-sm font-medium mb-2">B. Observee Data (Swa Is Implemented To)</h4>
+                                    <h4 className="text-lg font-bold mb-2">B. Observee Data (Swa Is Implemented To)</h4>
                                 </th>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Name</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Name</th>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -180,7 +180,7 @@ const SWA = () => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                                <td className="px-6 py-4">Badge</td>
+                                <td className="px-6 py-4 font-bold text-gray-600">Badge</td>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -191,8 +191,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Team</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Team</th>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -202,7 +202,7 @@ const SWA = () => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                                <td className="px-6 py-4">Job Title</td>
+                                <td className="px-6 py-4 font-bold text-gray-600">Job Title</td>
                                 <td className="px-6 py-4">
                                     <input
                                         type="text"
@@ -213,8 +213,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-gray-800">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Company</th>
+                            <tr className="bg-white ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Company</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -227,13 +227,13 @@ const SWA = () => {
                             </tr>
 
                             {/* General Information */}
-                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <th colSpan={4} className="px-6 py-3">
-                                    <h4 className="text-sm font-medium mb-2">C. General Information</h4>
+                                    <h4 className="text-lg font-bold mb-2">C. General Information</h4>
                                 </th>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Date</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Date</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="date"
@@ -244,8 +244,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Location</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Location</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -256,8 +256,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Reason</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Reason</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -268,8 +268,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Response</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Response</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -280,8 +280,8 @@ const SWA = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Description</th>
+                            <tr className="bg-white border-b ">
+                                <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">Description</th>
                                 <td colSpan={3} className="px-6 py-4">
                                     <input
                                         type="text"
@@ -294,14 +294,14 @@ const SWA = () => {
                             </tr>
 
                             {/* Evaluation Questions */}
-                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <th colSpan={4} className="px-6 py-3">
-                                    <h4 className="text-sm font-medium mb-2">D. Evaluation Questions</h4>
+                                    <h4 className="text-lg font-bold mb-2">D. Evaluation Questions</h4>
                                 </th>
                             </tr>
                             {questions.map((question, index) => (
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr className="bg-white border-b " key={index}>
+                                    <th scope="row" className="px-6 py-4 font-bold text-gray-600 whitespace-nowrap ">
                                         {question}
                                     </th>
                                     <td className="px-6 py-4">

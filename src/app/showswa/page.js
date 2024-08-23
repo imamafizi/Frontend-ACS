@@ -167,17 +167,17 @@ const Page = () => {
                                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
                                                     <th colSpan={4} class="px-6 py-3">
-                                                        <h4 className="text-sm font-medium mb-2">A. Observer Data (Swa Is Initiated/Reported By)/swa digagas/ dilapor oleh </h4>
+                                                        <h4 className="text-lg font-bold mb-2">A. Observer Data (Swa Is Initiated/Reported By)/swa digagas/ dilapor oleh </h4>
                                                     </th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th class="px-6 py-4">
+                                                    <th class="px-6 py-4 ">
                                                         Name
                                                     </th>
-                                                    <td class="px-6 py-4">
+                                                    <td class="px-6  py-4">
                                                         <p>{selectedRecord.user.username}</p>
                                                     </td>
                                                     <th class="px-6 py-4">
@@ -214,7 +214,7 @@ const Page = () => {
 
                                                 <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                     <th colSpan={6} class="px-6 py-3">
-                                                        <h4 className="text-sm font-medium mb-2">B. Observer Data (Swa Is Implemented By)/Data Observer (Swa Dilakukan Oleh) </h4>
+                                                        <h4 className="text-lg font-bold mb-2">B. Observer Data (Swa Is Implemented By)/Data Observer (Swa Dilakukan Oleh) </h4>
                                                     </th>
                                                 </tr>
 
@@ -260,7 +260,7 @@ const Page = () => {
 
                                                 <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                     <th colSpan={4} class="px-6 py-3">
-                                                        <h4 className="text-sm font-medium mb-2">C. Observee Data (Swa Is Implemented To)/Data Observee (Swa diterapkan kepada) </h4>
+                                                        <h4 className="text-lg font-bold mb-2">C. Observee Data (Swa Is Implemented To)/Data Observee (Swa diterapkan kepada) </h4>
                                                     </th>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -306,7 +306,7 @@ const Page = () => {
 
                                                 <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                     <th colSpan={4} class="px-6 py-3">
-                                                        <h4 className="text-sm font-medium mb-2">D. Detail SWA Observation </h4>
+                                                        <h4 className="text-lg  font-bold mb-2">D. Detail SWA Observation </h4>
                                                     </th>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -317,12 +317,6 @@ const Page = () => {
                                                         <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
 
                                                     </td>
-                                                    <th class="px-6 py-4">
-                                                        Location/Lokasi
-                                                    </th>
-                                                    <td class="px-6 py-4">
-                                                        <p>{selectedRecord.location}</p>
-                                                    </td>
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                     <th class="px-6 py-4">
@@ -332,14 +326,21 @@ const Page = () => {
                                                         <p>{selectedRecord.desc}</p>
 
                                                     </td>
-
                                                 </tr>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th colSpan={2} class="px-6 py-4">
+                                                    <th class="px-6 py-4">
+                                                        Location/Lokasi
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        <p>{selectedRecord.location}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th class="px-6 py-4">
                                                         Reason For Doing Swa/Alasan Melakukan Swa
                                                     </th>
 
-                                                    <td colSpan={2} class="px-6 py-4">
+                                                    <td colSpan={3} class="px-6 py-4">
                                                         <p>{selectedRecord.reason}</p>
 
                                                     </td>
@@ -347,11 +348,11 @@ const Page = () => {
                                                 </tr>
 
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th colSpan={2} class="px-6 py-4">
+                                                    <th class="px-6 py-4">
                                                         Response & Solution/ Respon dan Solusi
                                                     </th>
 
-                                                    <td colSpan={2} class="px-6 py-4">
+                                                    <td colSpan={3} class="px-6 py-4">
                                                         <p>{selectedRecord.response}</p>
 
                                                     </td>
@@ -359,7 +360,7 @@ const Page = () => {
 
                                                 <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                     <th colSpan={4} class="px-6 py-3">
-                                                        <h4 className="text-sm font-medium mb-2">Feedback / Umpan Balik </h4>
+                                                        <h4 className="text-lg font-bold mb-2">Feedback / Umpan Balik </h4>
                                                     </th>
 
                                                 </tr>
