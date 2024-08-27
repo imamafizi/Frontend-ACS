@@ -15,6 +15,17 @@ const Page = () => {
     const recordPerPage = 10;
 
 
+    const downloadFile = () => {
+        const link = document.createElement('a');
+        const url = 'https://docs.google.com/spreadsheets/d/17gB75Rfn2vZeuRtaunSnMp4SLHM9Abo8/export?format=xlsx';
+        link.href = url;
+        link.setAttribute('download', ''); // Optional: Set nama file yang akan diunduh
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
 
     useEffect(() => {
         axios.get(`${baseUrl}/swa/`)
@@ -143,6 +154,7 @@ const Page = () => {
                                     <div>
                                         <button
                                             className="text-gray-900 mr-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            onClick={downloadFile}
                                         >
                                             <FaDownload />
                                         </button>
