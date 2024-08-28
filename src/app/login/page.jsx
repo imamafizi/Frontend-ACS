@@ -70,7 +70,7 @@ const Login = () => {
   console.log(isAuthenticated);
 
   if (isAuthenticated) {
-    return null; // This prevents the login page from rendering
+    return null;
   }
 
   return (

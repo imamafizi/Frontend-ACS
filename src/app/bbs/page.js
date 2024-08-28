@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const BBS = () => {
     const navigate = useRouter();
-    // Inisialisasi state untuk setiap properti di dalam object data
     const [data, setData] = useState({
         date: "",
         location: "",
@@ -72,7 +71,6 @@ const BBS = () => {
         userId: "",
     });
 
-    // Fungsi untuk menangani perubahan input
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData((prevState) => ({
@@ -81,15 +79,13 @@ const BBS = () => {
         }));
     };
 
-    // Fungsi untuk menangani submit form
     const handleSubmit = async (e) => {
         const loginData = JSON.parse(localStorage.getItem("login"));
         e.preventDefault();
 
-        // Transformasi data sebelum dikirim
         const transformedData = {
             ...data,
-            date: new Date(data.date), // Konversi tanggal ke format Date
+            date: new Date(data.date),
             q11: data.q11 === "At Risk" ? true : data.q11 === "Safe" ? false : data.q11,
             q12: data.q12 === "At Risk" ? true : data.q12 === "Safe" ? false : data.q12,
             q13: data.q13 === "At Risk" ? true : data.q13 === "Safe" ? false : data.q13,
@@ -145,7 +141,7 @@ const BBS = () => {
         try {
             const response = await axios.post(`${baseUrl}/bbs/${loginData.id}`, transformedData);
             console.log("Respons API:", response.data);
-            // Tambahkan logika setelah sukses kirim data
+
             toast.success("Data submitted successfully!");
             setTimeout(() => {
                 navigate.push("/showbbs");
@@ -153,7 +149,7 @@ const BBS = () => {
         } catch (error) {
             console.error("Terjadi kesalahan saat mengirim data:", error);
             toast.error("Failed to submit data. Please try again.")
-            // Tambahkan logika untuk menangani error
+
         }
     };
 

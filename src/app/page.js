@@ -12,7 +12,7 @@ export default function Home() {
           alt="Hero Background"
           className="w-full h-full object-cover brightness-50 ml-[-25px]" // Adjust brightness as needed
         />
-        <div className="absolute inset-0 bg-gray-900 opacity-75 backdrop-blur-md"></div>
+        <div className="absolute inset-0 bg-gray-900 opacity-50 backdrop-blur-md"></div>
       </div>
       {/* Content */}
       <div className="relative z-10 px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">

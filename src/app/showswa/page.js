@@ -10,8 +10,8 @@ const Page = () => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedRecord, setSelectedRecord] = useState(null); // Add state for selected record
-    const [searchTerm, setSearchTerm] = useState(""); // State for the search term
+    const [selectedRecord, setSelectedRecord] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const recordPerPage = 10;
 
 
@@ -19,7 +19,7 @@ const Page = () => {
         const link = document.createElement('a');
         const url = 'https://docs.google.com/spreadsheets/d/17gB75Rfn2vZeuRtaunSnMp4SLHM9Abo8/export?format=xlsx';
         link.href = url;
-        link.setAttribute('download', ''); // Optional: Set nama file yang akan diunduh
+        link.setAttribute('download', '');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -30,7 +30,7 @@ const Page = () => {
     useEffect(() => {
         axios.get(`${baseUrl}/swa/`)
             .then(response => {
-                console.log('API Response:', response.data); // Check structure
+                console.log('API Response:', response.data);
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
                 } else {
@@ -70,7 +70,7 @@ const Page = () => {
     };
 
     const openModal = (record) => {
-        setSelectedRecord(record); // Set selected record
+        setSelectedRecord(record);
         setIsModalOpen(true);
     };
 
@@ -140,10 +140,10 @@ const Page = () => {
 
             {isModalOpen && selectedRecord && (
                 <>
-                    {/* Overlay Blur & Gelap */}
+
                     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
 
-                    {/* Modal */}
+
                     <div id="detailSwa" tabIndex="-1" aria-hidden="true" className="overflow-y-auto fixed inset-0 z-50 flex justify-center items-center">
                         <div className="relative p-4 w-full max-w-screen-xl max-h-full">
                             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">

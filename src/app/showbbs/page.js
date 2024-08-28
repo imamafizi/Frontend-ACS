@@ -5,6 +5,10 @@ import { FaEye, FaPlusSquare } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa6";
 import { baseUrl } from '../utils/config';
 import Link from 'next/link';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+
+ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 const Page = () => {
     const [data, setData] = useState([]);
@@ -13,14 +17,17 @@ const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [formData, setFormData] = useState({});
-    const [searchTerm, setSearchTerm] = useState(""); // State for the search term
+    const [searchTerm, setSearchTerm] = useState("");
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const recordPerPage = 10;
 
     const downloadFile = () => {
         const link = document.createElement('a');
         const url = 'https://docs.google.com/spreadsheets/d/17gB75Rfn2vZeuRtaunSnMp4SLHM9Abo8/export?format=xlsx';
         link.href = url;
-        link.setAttribute('download', ''); // Optional: Set nama file yang akan diunduh
+        link.setAttribute('download', '');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -30,7 +37,7 @@ const Page = () => {
     useEffect(() => {
         axios.get(`${baseUrl}/bbs/`)
             .then(response => {
-                console.log('API Response:', response.data); // Check structure
+                console.log('API Response:', response.data);
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
                 } else {
@@ -42,9 +49,17 @@ const Page = () => {
             });
     }, []);
 
-    const filteredData = data.filter(record =>
-        record.rig.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const filteredData = sortedData.filter(record => {
+        const recordDate = new Date(record.date);
+        const isInDateRange = (
+            (!startDate || recordDate >= startDate) &&
+            (!endDate || recordDate <= endDate)
+        );
+
+        return isInDateRange && record.rig.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     const lastIndex = currentPage * recordPerPage;
     const firstIndex = lastIndex - recordPerPage;
@@ -137,33 +152,95 @@ const Page = () => {
 
     };
 
-    const downloadBbsById = async () => {
-        if (!id) {
-            alert('Please select a record to download');
-            return;
-        }
+    // const downloadBbsById = async () => {
+    //     if (!id) {
+    //         alert('Please select a record to download');
+    //         return;
+    //     }
 
-        try {
-            const response = await axios.get(`${baseUrl}/bbs/${id}`, {
-                responseType: 'blob', // Ensure the response is treated as binary data
-            });
+    //     try {
+    //         const response = await axios.get(`${baseUrl}/bbs/${id}`, {
+    //             responseType: 'blob', // Ensure the response is treated as binary data
+    //         });
 
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `bbs_record_${id}.xlsx`);
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode?.removeChild(link);
-        } catch (error) {
-            alert('Failed to download the file');
-        }
+    //         const blob = new Blob([response.data], { type: response.headers['content-type'] });
+    //         const url = window.URL.createObjectURL(blob);
+    //         const link = document.createElement('a');
+    //         link.href = url;
+    //         link.setAttribute('download', `bbs_record_${id}.xlsx`);
+    //         document.body.appendChild(link);
+    //         link.click();
+    //         link.parentNode?.removeChild(link);
+    //     } catch (error) {
+    //         alert('Failed to download the file');
+    //     }
+    // };
+
+    const getSafeAndAtRiskData = () => {
+        const safeCounts = filteredData.reduce((acc, record) => {
+            acc[record.true] = (acc[record.true] || 0) + 1;
+            return acc;
+        }, {});
+
+        const atRiskCounts = filteredData.reduce((acc, record) => {
+            acc[record.false] = (acc[record.false] || 0) + 1;
+            return acc;
+        }, {});
+
+        return {
+            labels: ['Safe', 'At Risk'],
+            datasets: [
+                {
+                    label: 'Safe',
+                    data: [safeCounts['Yes'] || 0, safeCounts['No'] || 0],
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                    borderWidth: 1,
+                },
+                {
+                    label: 'At Risk',
+                    data: [atRiskCounts['Yes'] || 0, atRiskCounts['No'] || 0],
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)'],
+                    borderWidth: 1,
+                },
+            ],
+        };
     };
+
+    console.log(getSafeAndAtRiskData, "pantek");
 
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen relative">
+
+            <div className="my-6 h-52 flex justify-center">
+                <Pie data={getSafeAndAtRiskData()} />
+            </div>
+
+            <div className="my-6 flex justify-between">
+                <div className="flex-1">
+                    <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">Start Date</label>
+                    <input
+                        type="date"
+                        id="start-date"
+                        value={startDate ? startDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => setStartDate(new Date(e.target.value))}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-500 focus:ring-opacity-50"
+                    />
+                </div>
+                <div className="flex-1 ms-4">
+                    <label htmlFor="end-date" className="block text-sm font-medium text-gray-700">End Date</label>
+                    <input
+                        type="date"
+                        id="end-date"
+                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => setEndDate(new Date(e.target.value))}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-500 focus:ring-opacity-50"
+                    />
+                </div>
+            </div>
+
             <div className="flex justify-between py-5 pr-5 items-center">
                 <Link href="/bbs" legacyBehavior>
                     <a className="flex items-center text-white bg-red-800 hover:bg-red-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2 ">
@@ -191,6 +268,10 @@ const Page = () => {
                     </div>
                 </form>
             </div>
+
+
+
+
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full bg-white">
                     <thead className="bg-red-900 text-white">
@@ -229,10 +310,10 @@ const Page = () => {
 
             {isModalOpen && selectedRecord && (
                 <>
-                    {/* Overlay Blur & Gelap */}
+
                     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
 
-                    {/* Modal */}
+
                     <div id="detailBbs" tabIndex="-1" aria-hidden="true" className="overflow-y-auto fixed inset-0 z-50 flex justify-center items-center">
                         <div className="relative p-4 w-full max-w-screen-lg max-h-full">
                             <div className="relative bg-white rounded-lg shadow ">
@@ -313,7 +394,7 @@ const Page = () => {
                                                 </th>
                                             </tr>
                                             {Object.entries(selectedRecord)
-                                                .filter(([key, value]) => key.startsWith('q') && value === true) // Filter keys starting with 'q' and with a value of true
+                                                .filter(([key, value]) => key.startsWith('q') && value === true)
                                                 .map(([key, value], index) => (
                                                     <tr key={index} class="bg-white border-b  ">
                                                         <th colSpan={2} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
@@ -452,6 +533,8 @@ const Page = () => {
                     </li>
                 </ul>
             </nav>
+
+
         </div>
     );
 };

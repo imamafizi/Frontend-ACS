@@ -4,13 +4,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { PhotoIcon } from '@heroicons/react/24/outline';
 import { baseUrl } from '../utils/config';
 
 const SWA = () => {
     const navigate = useRouter();
-
-    // Initialize state for the form data
     const [formData, setFormData] = useState({
         nameImplementor: '',
         teamImplementor: '',
@@ -58,7 +55,7 @@ const SWA = () => {
             return;
         }
 
-        // Transform data if needed
+
         const transformedData = {
             ...formData,
             q1: formData.q1 === "Yes" ? true : false,
