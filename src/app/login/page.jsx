@@ -1,76 +1,36 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
+import useLogin from "@/hooks/api/auth/useLogin";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { loginAction } from "@/redux/slices/userSlices";
-import { baseUrl } from "../utils/config";
-import useAuth from "../utils/withAuthRedirect";
-
-const validationSchema = Yup.object().shape({
-  usernameOrEmail: Yup.string().required("Username or Email cannot be empty"),
-  password: Yup.string()
-    .required("You must enter a password")
-    .min(6, "Password must be at least 8 characters"),
-});
+import { useSelector } from "react-redux";
+import { LoginSchema } from "./schemas/LoginSchema";
 
 const Login = () => {
-  const isAuthenticated = useAuth();
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-  const dispatch = useDispatch();
   const router = useRouter();
+  const { id } = useSelector((state) => state.user);
+
+  const { mutateAsync: login, isPending } = useLogin();
 
   const formik = useFormik({
     initialValues: {
       usernameOrEmail: "",
       password: "",
     },
-    validationSchema,
+    validationSchema: LoginSchema,
     onSubmit: async (values) => {
       const userlogin = {
         usernameOrEmail: values.usernameOrEmail,
         password: values.password,
       };
 
-      try {
-        const userData = await axios.post(`${baseUrl}/users/login`, userlogin); // Adjust the URL according to your backend endpoint
-        console.log(userData);
-        localStorage.setItem("login", JSON.stringify(userData.data.data));
-        dispatch(loginAction(userData.data.data));
-        toast.success("Login Success", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        router.push("/");
-      } catch (error) {
-        console.error(error);
-        toast.error(error.message, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
+      await login(userlogin);
     },
   });
-  console.log(isAuthenticated);
 
-  if (isAuthenticated) {
-    return null;
+  if (id) {
+    return router.replace("/");
   }
 
   return (
@@ -92,19 +52,19 @@ const Login = () => {
 
           <p className="mt-1 text-center text-gray-500 ">Login your account</p>
           <div className="flex items-center justify-center mt-6">
-            <a
+            <Link
               href="/login"
               className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b-2 border-red-500 dark:border-gray-400 dark:text-gray-300"
             >
               Login
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/register"
               className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b  dark:border-blue-400 dark:text-white"
             >
               Register
-            </a>
+            </Link>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="w-full mt-4">
@@ -153,6 +113,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-900 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                disabled={isPending}
               >
                 Sign In
               </button>

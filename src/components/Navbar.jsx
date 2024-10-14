@@ -1,30 +1,19 @@
 "use client";
+import { logoutAction } from "@/redux/slices/userSlices";
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { logoutAction, loginAction } from "@/redux/slices/userSlices";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-  // Ensure default state is handled
-  const user = useSelector((state) => state.users || {}); // Handle the case where state.users might be undefined
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const router = useRouter();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("login"));
-
-    if (savedUser && user && !user.id) {
-      dispatch(loginAction(savedUser)); // Use loginAction to set user
-    }
-  }, [dispatch, user]); // Pass user as dependency but handle undefined cases
 
   const handleLogout = () => {
     dispatch(logoutAction());
-    localStorage.removeItem("login");
-    router.push("/login");
   };
 
   return (
@@ -47,7 +36,7 @@ const Navbar = () => {
                   Hey, {user.username}
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
                     <Link
                       href="/profile"
                       className="block px-4 py-2 text-gray-800 hover:bg-gray-100"

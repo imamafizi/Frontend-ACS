@@ -1,39 +1,23 @@
 "use client";
-import Image from "next/image";
-import React from "react";
+import useRegister from "@/hooks/api/auth/useRegister";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import {
-  FaUser,
-  FaEnvelope,
-  FaLock,
-  FaBuilding,
-  FaIdCard,
-} from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { baseUrl } from "../utils/config";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import withAuthRedirect from "../utils/withAuthRedirect";
+import {
+  FaBuilding,
+  FaEnvelope,
+  FaIdCard,
+  FaLock,
+  FaUser,
+} from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RegisterSchema } from "./schemas/RegisterSchema";
 
 const Register = () => {
-  const dispatch = useDispatch();
-  const navigate = useRouter();
-
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Full Name is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Confirm Password is required"),
-  });
+  const router = useRouter();
+  const { id } = useSelector((state) => state.user);
+  const { mutateAsync: register, isPending } = useRegister();
 
   const formik = useFormik({
     initialValues: {
@@ -45,28 +29,16 @@ const Register = () => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema,
+    validationSchema: RegisterSchema,
     onSubmit: async (values) => {
-      try {
-        const { username, email, jabatan, company, badge, password } = values;
-        const response = await axios.post(`${baseUrl}/users`, {
-          username,
-          email,
-          jabatan,
-          company,
-          badge,
-          password,
-        });
-        toast.success("Register successfull!");
-        setTimeout(() => {
-          navigate.push("/login");
-        }, 1000);
-      } catch (error) {
-        toast.error("Registration failed. Please try again.");
-        console.error("Registration failed", error);
-      }
+      const { username, email, jabatan, company, badge, password } = values;
+      await register({ username, email, jabatan, company, badge, password });
     },
   });
+
+  if (id) {
+    return router.replace("/");
+  }
 
   return (
     <div className="md:p-20 p-10">
@@ -87,18 +59,18 @@ const Register = () => {
             <p className="mt-1 text-center text-gray-500">Create account</p>
 
             <div className="flex items-center justify-center mt-6">
-              <a
+              <Link
                 href="/login"
                 className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b"
               >
                 Login
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/register"
                 className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-red-500"
               >
                 Register
-              </a>
+              </Link>
             </div>
 
             <div className="relative flex items-center mt-8">
@@ -260,6 +232,7 @@ const Register = () => {
               <button
                 type="submit"
                 className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-900 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-50"
+                disabled={isPending}
               >
                 Sign Up
               </button>
@@ -273,7 +246,6 @@ const Register = () => {
           </a>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
