@@ -1,7 +1,10 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
 import Footerr from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 import ReduxProvider from "./ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,11 +18,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>
-          <Navbar />
-          {children}
-          <Footerr />
-        </ReduxProvider>
+        <ReactQueryProvider>
+          <ReduxProvider>
+            <Navbar />
+            {children}
+            <Footerr />
+          </ReduxProvider>
+        </ReactQueryProvider>
+        <ToastContainer />
       </body>
     </html>
   );

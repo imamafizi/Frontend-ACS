@@ -1,6 +1,9 @@
-import Image from 'next/image';
+"use client";
 
-export default function Home() {
+import AuthGuard from "@/hoc/AuthGuard";
+import Image from "next/image";
+
+const Home = () => {
   return (
     <div className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden">
       {/* Background Image with Blur Effect */}
@@ -20,7 +23,8 @@ export default function Home() {
           Transportation, Drilling, Work Over and Heavy Duty
         </h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-          Comprehensive Provision of Drilling Services, Work Service Rigs, Transportation Solutions, and Heavy Equipment Expertise
+          Comprehensive Provision of Drilling Services, Work Service Rigs,
+          Transportation Solutions, and Heavy Equipment Expertise
         </p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
           <a
@@ -54,4 +58,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default AuthGuard(Home);

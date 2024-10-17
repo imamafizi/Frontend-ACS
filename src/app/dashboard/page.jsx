@@ -1,3 +1,4 @@
+import AuthGuard from "@/hoc/AuthGuard";
 import SidebarDasboard from "./componnent/SidebarDashboard";
 
 const Dashboard = () => {
@@ -17,4 +18,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AuthGuard(Dashboard);
