@@ -20,11 +20,11 @@ const Home = () => {
       {/* Content */}
       <div className="relative z-10 px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-          Transportation, Drilling, Work Over and Heavy Duty
+          Behavior Based Safety and Stop Work Authority
         </h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-          Comprehensive Provision of Drilling Services, Work Service Rigs,
-          Transportation Solutions, and Heavy Equipment Expertise
+          Lakukan dengan selamat atau tidak sama sekali,
+          Masih ada waktu untuk bekerja dengan selamat
         </p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
           <a

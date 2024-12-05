@@ -6,7 +6,7 @@ import TopFiveBBS from "./TopFiveBBS";
 
 const SectionChart = ({ startDate, endDate }) => {
   return (
-    <div className="mt-6 mb-12 grid grid-cols-3 gap-12">
+    <div className="mt-6 mb-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
       <PieChartAtRiskCategories queries={{ startDate, endDate }} />
       <PieChartAtRiskAndSafe queries={{ startDate, endDate }} />
       <TopFiveBBS queries={{ startDate, endDate }} />
